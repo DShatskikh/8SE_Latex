@@ -166,4 +166,18 @@ At command "proof" (line 1)
 Это помогает модели копировать/адаптировать похожие конструкции рядом.
 \end{frame}
 
+\begin{frame}[fragile]{Пример влияния контекста}
+\lstset{style=code, language=}
+\begin{lstlisting}
+lemma additive_implies_homogenous:
+  assumes "forall x y. f (x + y) = f x + f y"
+  shows   "f 0 = 0"
+by (metis add.left_neutral assms)
+
+lemma fun_sum_commute:
+  assumes "f 0 = 0" and "forall x y. f (x + y) = f x + f y"
+  shows "f (sum g A) = (\sum a \in A. f (g a))"
+\end{lstlisting}
+\end{frame}
+
 \end{document}
