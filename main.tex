@@ -14,6 +14,8 @@
 \usepackage{booktabs}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{tikz} 
+\usetikzlibrary{arrows.meta, positioning}
 
 % ---------- Listings styles ----------
 \definecolor{codebg}{RGB}{248,248,248}
@@ -51,12 +53,14 @@
 
 \section{Первый раздел}
 
-
-\begin{figure}{}
+\begin{frame}
+\frametitle{Рисунок}
+\begin{figure}
 \centering
 \input{figures/figure1}
 \caption{An example of using the proof generation model to generate a proof.}
 \end{figure}
+\end{frame}
 
 \begin{frame}
 \frametitle{Первый слайд}
@@ -115,6 +119,18 @@ for temp in [0.0, 0.4, 0.8, 1.0]:
             return SUCCESS, p
 return FAILURE
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Proof repair: как Baldur чинит доказательства}
+Если Isabelle возвращает ошибку, Baldur формирует вход для repair-модели:
+\begin{itemize}
+  \item теорема;
+  \item неверный proof script;
+  \item \textbf{сообщение об ошибке} (error message).
+\end{itemize}
+
+\vspace{2mm}
+Далее модель генерирует исправленный proof script и снова запускается проверка.
 \end{frame}
 
 \end{document}
