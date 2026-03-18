@@ -133,4 +133,23 @@ return FAILURE
 Далее модель генерирует исправленный proof script и снова запускается проверка.
 \end{frame}
 
+\begin{frame}[fragile]{Формат repair-входа (пример)}
+\lstset{style=code, language=}
+\begin{lstlisting}
+<THEOREM>
+lemma fun_sum_commute:
+  assumes "f 0 = 0" and "forall x y. f (x + y) = f x + f y"
+  shows "f (sum g A) = (\sum a \in A. f (g a))"
+
+<INCORRECT_PROOF>
+proof (induct A)
+  ...
+qed
+
+<ERROR>
+Step error: Unable to figure out induct rule
+At command "proof" (line 1)
+\end{lstlisting}
+\end{frame}
+
 \end{document}
