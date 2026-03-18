@@ -70,4 +70,19 @@
 В статье используется \textbf{Minerva} — модель, предварительно обученная на математических текстах.
 \end{frame}
 
+\begin{frame}{Whole-proof generation: идея}
+Вместо пошагового поиска:
+\begin{itemize}
+  \item вход: формулировка теоремы;
+  \item выход: \textbf{полный proof script}.
+\end{itemize}
+
+\vspace{2mm}
+Дальше proof assistant просто проверяет:
+\begin{itemize}
+  \item нет ошибок $\Rightarrow$ теорема доказана;
+  \item есть ошибки $\Rightarrow$ пробуем другой сэмпл или включаем repair.
+\end{itemize}
+\end{frame}
+
 \end{document}
