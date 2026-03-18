@@ -180,4 +180,21 @@ lemma fun_sum_commute:
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{Почему подход проще, чем step-by-step search}
+Step-by-step:
+\begin{itemize}
+  \item много обращений к модели;
+  \item постоянный цикл «модель → prover → модель → ...»;
+  \item сложнее инфраструктура.
+\end{itemize}
+
+\vspace{2mm}
+Whole-proof:
+\begin{itemize}
+  \item один запрос = много шагов сразу;
+  \item удобно батчить генерацию;
+  \item проверка отдельно на CPU.
+\end{itemize}
+\end{frame}
+
 \end{document}
