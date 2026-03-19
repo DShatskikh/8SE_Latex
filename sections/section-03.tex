@@ -14,6 +14,27 @@
 
 \input{figures/figure3.tex}
 
+\begin{frame}{Статистика по разным моделям}
+\centering
+\small
+
+\begin{tabular}{lcc}
+\toprule
+Model & 16 samples & 64 samples \\
+\midrule
+Baldur 8b generate & 34.8\% & 40.7\% \\
+Baldur 8b generate + repair & 36.3\%$^{*}$ & --- \\
+Baldur 8b w/ context & 40.9\% & 47.5\% \\
+Baldur 62b w/ context & 42.2\% & 47.9\% \\
+\midrule
+Baldur 8b w/ context $\cup$ Thor & --- & 65.7\% \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3cm}
+{\tiny $^{*}$Repair uses half the samples and one repair attempt per sample.}
+\end{frame}
+
 
 \begin{frame}{Вопросы исследования}
 \begin{enumerate}
