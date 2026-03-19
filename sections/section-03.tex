@@ -1,0 +1,71 @@
+\section{Часть 3 — Эксперименты и результаты}
+
+\begin{frame}{Датасет и постановка эксперимента}
+Оценка проводится на бенчмарке \textbf{PISA} для Isabelle/HOL:
+\begin{itemize}
+  \item корпус теорем и доказательств из Isabelle + Archive of Formal Proofs;
+  \item тестовый набор: \textbf{6336} теорем.
+\end{itemize}
+
+\vspace{2mm}
+Меряем долю теорем, доказанных полностью автоматически.
+\end{frame}
+
+\begin{frame}{Вопросы исследования}
+\begin{enumerate}
+  \item Насколько LLM эффективны в генерации \textbf{целых} доказательств?
+  \item Можно ли улучшить результат через \textbf{repair} по ошибкам Isabelle?
+  \item Помогает ли \textbf{контекст} из файла теории?
+  \item Влияет ли \textbf{размер} модели?
+  \item Как Baldur соотносится с state-of-the-art методами (например, Thor)?
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Итоги по эффективности (по тексту статьи)}
+Ключевые выводы, которые выносим в доклад:
+\begin{itemize}
+  \item Baldur доказывает заметную долю теорем автоматически (порядка \(\sim 40\%\)).
+  \item Repair даёт прирост и важен именно благодаря \textbf{error messages} (сообщениям с ошибками).
+  \item Контекст из theory-файла повышает успешность (порядка \(\sim 47\%\)).
+  \item Более крупные модели работают лучше.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Комплементарность с Thor}
+\textbf{Thor} использует комбинацию:
+\begin{itemize}
+  \item модели;
+  \item поиска;
+  \item \textbf{Sledgehammer} (premise selection/автоматические решатели).
+\end{itemize}
+
+\vspace{2mm}
+Наблюдение статьи:
+\begin{itemize}
+  \item Baldur и Thor решают \textbf{частично разные} теоремы;
+  \item объединение результатов даёт около \textbf{65.7\%} доказанных теорем.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Мини-идея premise selection (почему Thor силён)}
+\lstset{style=code, language=}
+\begin{lstlisting}
+have "goal"
+  by (smt lemma1 lemma2 lemma3)
+\end{lstlisting}
+
+Комментарий:
+\begin{itemize}
+  \item успех автоматического решателя зависит от выбора нужных лемм;
+  \item Thor активно использует такие механизмы через Sledgehammer.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Главные выводы}
+\begin{itemize}
+  \item LLM могут генерировать \textbf{полные} формальные доказательства.
+  \item Error messages из proof assistant — полезный сигнал для \textbf{proof repair}.
+  \item Whole-proof подход упрощает архитектуру по сравнению с step-by-step search.
+  \item В перспективе: комбинировать подходы (LLM + search/premise selection).
+\end{itemize}
+\end{frame}

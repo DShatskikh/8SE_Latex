@@ -1,0 +1,107 @@
+\section{Часть 1 — Введение и постановка проблемы}
+
+\begin{frame}{Почему вопрос надёжности важен}
+\begin{itemize}
+  \item Большинство систем проверяются тестами.
+  \item Тестирование проверяет \textbf{конечный набор} входов, а пространство входов часто огромно/бесконечно.
+  \item Даже хорошо протестированная система может сломаться в редких условиях.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Где это критично}
+Для систем повышенной ответственности ошибки недопустимы:
+\begin{itemize}
+  \item операционные системы;
+  \item компиляторы;
+  \item криптографические библиотеки;
+  \item авиационные и медицинские системы.
+\end{itemize}
+\vspace{2mm}
+Выход — \textbf{формальная верификация программ}.
+\end{frame}
+
+\begin{frame}{Формальная верификация: что это и зачем}
+\textbf{Формальная верификация} — математическое доказательство того, что программа удовлетворяет заданным свойствам.
+\begin{itemize}
+  \item вместо «проверили на примерах» — «доказали для всех входов»;
+  \item свойства формулируются как логические утверждения;
+  \item результат проверяем машинно.
+\end{itemize}
+\vspace{2mm}
+Примеры свойств:
+\begin{itemize}
+  \item сортировка возвращает упорядоченный массив;
+  \item компилятор сохраняет семантику программы.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Цена формальной верификации}
+\begin{itemize}
+  \item Пример: компилятор \textbf{CompCert} (C), корректность доказана формально.
+  \item Известный факт: объём доказательства может быть \textbf{существенно больше} объёма кода (в статье приводится пример порядка \(\sim 3\times\)).
+\end{itemize}
+
+\vspace{2mm}
+Ключевая проблема: \textbf{трудоёмкость написания доказательств}.
+\end{frame}
+
+\begin{frame}{Proof assistant и Isabelle/HOL}
+\textbf{Proof assistant} — среда для формулирования утверждений и написания \textbf{машинно-проверяемых} доказательств.
+
+\vspace{2mm}
+\textbf{Isabelle/HOL}:
+\begin{itemize}
+  \item Isabelle — популярный proof assistant;
+  \item HOL — логика высших порядков (удобна для функций, множеств, структур);
+  \item доказательства пишутся как \textbf{proof scripts}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Мини-пример proof script (Isabelle)}
+\lstset{style=code, language=}
+\begin{lstlisting}
+lemma add_0_right: "x + (0::nat) = x"
+by simp
+\end{lstlisting}
+
+\vspace{1mm}
+И пример с индукцией:
+\begin{lstlisting}
+lemma add_comm: "(a::nat) + b = b + a"
+proof (induct a)
+  case 0
+  then show ?case by simp
+next
+  case (Suc a)
+  then show ?case by simp
+qed
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Автоматизация доказательств: основные подходы}
+\begin{itemize}
+  \item \textbf{Hammers} — подбирают факты/леммы и пытаются «пробить» доказательство эвристиками.
+        В Isabelle: \textbf{Sledgehammer}.
+  \item \textbf{Search-based нейропруверы} — предсказывают следующий шаг и ищут доказательство по дереву состояний.
+\end{itemize}
+
+\vspace{2mm}
+Минусы search-based:
+\begin{itemize}
+  \item сложная архитектура (постоянный цикл «модель $\leftrightarrow$ prover»);
+  \item дорогой поиск;
+  \item генерация по шагам ограничивает использование больших LLM.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Переход к Baldur}
+Авторы предлагают другой подход:
+\begin{itemize}
+  \item генерировать \textbf{целое} доказательство сразу (whole-proof generation);
+  \item проверять доказательство в Isabelle;
+  \item при ошибке — чинить доказательство (proof repair).
+\end{itemize}
+
+\vspace{2mm}
+Далее — как устроен Baldur.
+\end{frame}

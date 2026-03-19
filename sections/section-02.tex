@@ -1,0 +1,117 @@
+\section{Часть 2 — Метод Baldur}
+
+\begin{frame}{Что такое LLM и почему это важно}
+\textbf{LLM} — большая языковая модель (Transformer), обученная на больших корпусах текста/кода:
+\begin{itemize}
+  \item генерирует текст и код;
+  \item умеет «достраивать» последовательности;
+  \item может быть дообучена на специализированных данных (fine-tuning).
+\end{itemize}
+
+\vspace{2mm}
+В статье используется \textbf{Minerva} — модель, предварительно обученная на математических текстах.
+\end{frame}
+
+\begin{frame}{Whole-proof generation: идея}
+Вместо пошагового поиска:
+\begin{itemize}
+  \item вход: формулировка теоремы;
+  \item выход: \textbf{полный proof script}.
+\end{itemize}
+
+\vspace{2mm}
+Дальше proof assistant просто проверяет:
+\begin{itemize}
+  \item нет ошибок $\Rightarrow$ теорема доказана;
+  \item есть ошибки $\Rightarrow$ пробуем другой сэмпл или включаем repair.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Псевдокод: генерация нескольких попыток}
+\lstset{style=code}
+\begin{lstlisting}[language=Python]
+for temp in [0.0, 0.4, 0.8, 1.0]:
+    proofs = sample_llm(theorem, k=64, temperature=temp, top_k=40)
+    for p in deduplicate(proofs):
+        ok = isabelle_check(p)
+        if ok:
+            return SUCCESS, p
+return FAILURE
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Proof repair: как Baldur чинит доказательства}
+Если Isabelle возвращает ошибку, Baldur формирует вход для repair-модели:
+\begin{itemize}
+  \item теорема;
+  \item неверный proof script;
+  \item \textbf{сообщение об ошибке} (error message).
+\end{itemize}
+
+\vspace{2mm}
+Далее модель генерирует исправленный proof script и снова запускается проверка.
+\end{frame}
+
+\begin{frame}[fragile]{Формат repair-входа (пример)}
+\lstset{style=code, language=}
+\begin{lstlisting}
+<THEOREM>
+lemma fun_sum_commute:
+  assumes "f 0 = 0" and "forall x y. f (x + y) = f x + f y"
+  shows "f (sum g A) = (\sum a \in A. f (g a))"
+
+<INCORRECT_PROOF>
+proof (induct A)
+  ...
+qed
+
+<ERROR>
+Step error: Unable to figure out induct rule
+At command "proof" (line 1)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Контекст из файла теории (theory file context)}
+Дополнительный сигнал: строки \textbf{перед теоремой} в том же файле.
+Они могут содержать:
+\begin{itemize}
+  \item определения;
+  \item предыдущие теоремы;
+  \item доказательства;
+  \item комментарии.
+\end{itemize}
+
+\vspace{2mm}
+Это помогает модели копировать/адаптировать похожие конструкции рядом.
+\end{frame}
+
+\begin{frame}[fragile]{Пример влияния контекста}
+\lstset{style=code, language=}
+\begin{lstlisting}
+lemma additive_implies_homogenous:
+  assumes "forall x y. f (x + y) = f x + f y"
+  shows   "f 0 = 0"
+by (metis add.left_neutral assms)
+
+lemma fun_sum_commute:
+  assumes "f 0 = 0" and "forall x y. f (x + y) = f x + f y"
+  shows "f (sum g A) = (\sum a \in A. f (g a))"
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Почему подход проще, чем step-by-step search}
+Step-by-step:
+\begin{itemize}
+  \item много обращений к модели;
+  \item постоянный цикл «модель → prover → модель → ...»;
+  \item сложнее инфраструктура.
+\end{itemize}
+
+\vspace{2mm}
+Whole-proof:
+\begin{itemize}
+  \item один запрос = много шагов сразу;
+  \item удобно батчить генерацию;
+  \item проверка отдельно на CPU.
+\end{itemize}
+\end{frame}
