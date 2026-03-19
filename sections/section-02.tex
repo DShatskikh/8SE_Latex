@@ -34,19 +34,6 @@
 \caption{An example of using the proof generation model to generate a proof.}
 \end{figure}
 
-% \begin{frame}[fragile]{Псевдокод: генерация нескольких попыток}
-% \lstset{style=code}
-% \begin{lstlisting}[language=Python]
-% for temp in [0.0, 0.4, 0.8, 1.0]:
-%     proofs = sample_llm(theorem, k=64, temperature=temp, top_k=40)
-%     for p in deduplicate(proofs):
-%         ok = isabelle_check(p)
-%         if ok:
-%             return SUCCESS, p
-% return FAILURE
-% \end{lstlisting}
-% \end{frame}
-
 \begin{frame}{Proof repair: как Baldur чинит доказательства}
 Если Isabelle возвращает ошибку, Baldur формирует вход для repair-модели:
 \begin{itemize}
@@ -59,24 +46,11 @@
 Далее модель генерирует исправленный proof script и снова запускается проверка.
 \end{frame}
 
-\begin{frame}[fragile]{Формат repair-входа (пример)}
-\lstset{style=code, language=}
-\begin{lstlisting}
-<THEOREM>
-lemma fun_sum_commute:
-  assumes "f 0 = 0" and "forall x y. f (x + y) = f x + f y"
-  shows "f (sum g A) = (\sum a \in A. f (g a))"
-
-<INCORRECT_PROOF>
-proof (induct A)
-  ...
-qed
-
-<ERROR>
-Step error: Unable to figure out induct rule
-At command "proof" (line 1)
-\end{lstlisting}
-\end{frame}
+\begin{figure}{}
+\centering
+\input{figures/figure2}
+\caption{An example of using the proof repair model to repair an incorrect proof.}
+\end{figure}
 
 \begin{frame}{Контекст из файла теории (theory file context)}
 Дополнительный сигнал: строки \textbf{перед теоремой} в том же файле.

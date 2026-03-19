@@ -1,0 +1,32 @@
+% figures/fig1.tex
+\begin{tikzpicture}[
+  scale=0.8,
+  transform shape,
+  font=\small,
+  box/.style={draw, rounded corners, align=center, inner sep=6pt, minimum width=42mm},
+  io/.style={draw, rounded corners, align=left, inner sep=6pt, minimum width=45mm},
+  arr/.style={-Latex, thick},
+  plain/.style={align=center, inner sep=6pt, minimum width=40mm}
+]
+
+\node[box] (model) {Proof Repair Model};
+
+\node[plain, above=10mm of model] (in) {
+  \texttt{<THEOREM>} Theorem Statement\\
+  \texttt{<INCORRECT\_PROOF>} Incorrect Proof\\
+  \texttt{<ERROR>}Error Message\texttt{<PROOF>}
+  };
+\node[plain, below=10mm of model] (out) {Candidate Proof};
+
+\node[box, below=10mm of out] (isa) {Isabelle\\(Proof Assistant)};
+
+\node[plain, below=10mm of isa, xshift=7mm] (succ) {\textbf{Success}};
+\node[plain, below=10mm of isa, xshift=-7mm] (fail) {\textbf{Failure}};
+
+\draw[arr] (in) -- (model);
+\draw[arr] (out) -- (isa);
+\draw[arr] (isa) -- node[right]{\texttt{No Error}}(succ);
+\draw[arr] (isa) -- node[left]{\texttt{Error}}(fail);
+
+\draw[arr] (model) -- (out);
+\end{tikzpicture}
