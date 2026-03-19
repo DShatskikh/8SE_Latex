@@ -47,6 +47,7 @@ Baldur 8b w/ context $\cup$ Thor & --- & 65.7\% \\
 
 \input{figures/figure4.tex}
 
+
 \begin{frame}{Комплементарность с Thor}
 \textbf{Thor} использует комбинацию:
 \begin{itemize}
@@ -55,6 +56,15 @@ Baldur 8b w/ context $\cup$ Thor & --- & 65.7\% \\
   \item \textbf{Sledgehammer} (premise selection/автоматические решатели).
 \end{itemize}
 
+\vspace{2mm}
+Наблюдение статьи:
+\begin{itemize}
+  \item Baldur и Thor решают \textbf{частично разные} теоремы;
+  \item объединение результатов даёт около \textbf{65.7\%} доказанных теорем.
+\end{itemize}
+\end{frame}
+
+
 \begin{frame}{Итоги по эффективности (по тексту статьи)}
 Ключевые выводы, которые выносим в доклад:
 \begin{itemize}
@@ -62,14 +72,6 @@ Baldur 8b w/ context $\cup$ Thor & --- & 65.7\% \\
   \item Repair даёт прирост и важен именно благодаря \textbf{error messages} (сообщениям с ошибками).
   \item Контекст из theory-файла повышает успешность (порядка \(\sim 47\%\)).
   \item Более крупные модели работают лучше.
-\end{itemize}
-\end{frame}
-
-\vspace{2mm}
-Наблюдение статьи:
-\begin{itemize}
-  \item Baldur и Thor решают \textbf{частично разные} теоремы;
-  \item объединение результатов даёт около \textbf{65.7\%} доказанных теорем.
 \end{itemize}
 \end{frame}
 
