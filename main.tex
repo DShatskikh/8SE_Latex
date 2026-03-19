@@ -146,6 +146,21 @@ qed
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{Автоматизация доказательств: основные подходы}
+\begin{itemize}
+  \item \textbf{Hammers} — подбирают факты/леммы и пытаются «пробить» доказательство эвристиками.
+        В Isabelle: \textbf{Sledgehammer}.
+  \item \textbf{Search-based нейропруверы} — предсказывают следующий шаг и ищут доказательство по дереву состояний.
+\end{itemize}
+
+\vspace{2mm}
+Минусы search-based:
+\begin{itemize}
+  \item сложная архитектура (постоянный цикл «модель $\leftrightarrow$ prover»);
+  \item дорогой поиск;
+  \item генерация по шагам ограничивает использование больших LLM.
+\end{itemize}
+\end{frame}
 
 % =================================================
 %                Денис
