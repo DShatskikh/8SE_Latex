@@ -125,6 +125,27 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Мини-пример proof script (Isabelle)}
+\lstset{style=code, language=}
+\begin{lstlisting}
+lemma add_0_right: "x + (0::nat) = x"
+by simp
+\end{lstlisting}
+
+\vspace{1mm}
+И пример с индукцией:
+\begin{lstlisting}
+lemma add_comm: "(a::nat) + b = b + a"
+proof (induct a)
+  case 0
+  then show ?case by simp
+next
+  case (Suc a)
+  then show ?case by simp
+qed
+\end{lstlisting}
+\end{frame}
+
 
 % =================================================
 %                Денис
