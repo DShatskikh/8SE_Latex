@@ -353,5 +353,19 @@ Whole-proof:
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Мини-идея premise selection (почему Thor силён)}
+\lstset{style=code, language=}
+\begin{lstlisting}
+have "goal"
+  by (smt lemma1 lemma2 lemma3)
+\end{lstlisting}
+
+Комментарий:
+\begin{itemize}
+  \item успех автоматического решателя зависит от выбора нужных лемм;
+  \item Thor активно использует такие механизмы через Sledgehammer.
+\end{itemize}
+\end{frame}
+
 
 \end{document}
