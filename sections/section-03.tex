@@ -11,6 +11,17 @@
 Меряем долю теорем, доказанных полностью автоматически.
 \end{frame}
 
+\begin{frame}{Вопросы исследования}
+\begin{enumerate}
+  \item Насколько LLM эффективны в генерации \textbf{целых} доказательств?
+  \item Можно ли улучшить результат через \textbf{repair} по ошибкам Isabelle?
+  \item Помогает ли \textbf{контекст} из файла теории?
+  \item Влияет ли \textbf{размер} модели?
+  \item Как Baldur соотносится с state-of-the-art методами (например, Thor)?
+\end{enumerate}
+\end{frame}
+
+
 \input{figures/figure3.tex}
 
 \begin{frame}{Статистика по разным моделям}
@@ -35,16 +46,6 @@ Baldur 8b w/ context $\cup$ Thor & --- & 65.7\% \\
 \end{frame}
 
 \input{figures/figure4.tex}
-
-\begin{frame}{Вопросы исследования}
-\begin{enumerate}
-  \item Насколько LLM эффективны в генерации \textbf{целых} доказательств?
-  \item Можно ли улучшить результат через \textbf{repair} по ошибкам Isabelle?
-  \item Помогает ли \textbf{контекст} из файла теории?
-  \item Влияет ли \textbf{размер} модели?
-  \item Как Baldur соотносится с state-of-the-art методами (например, Thor)?
-\end{enumerate}
-\end{frame}
 
 \begin{frame}{Итоги по эффективности (по тексту статьи)}
 Ключевые выводы, которые выносим в доклад:
